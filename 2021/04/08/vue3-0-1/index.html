@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>vue3.0 | 肥嘟嘟左卫门的博客</title>
+  <title>vue3.0心得 | 肥嘟嘟左卫门的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端技术分享">
+  <meta name="description" content="1.vue3.0是如何变快的呢?(1) diff方法优化: vue2中的virDom是全量的对比，vue3新增了静态标记(patchFlag),在与上一次virDom进行对比的时候，只对比带有标记的节点，并且通过flag的信息得知当前节点对比的具体内容 (2) hoistStatic静态提升:vue2无论元素是否参与更新都会被重新创建。vue3对于不参与更新的元素，只会被创建一次，之后会在每次渲染">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vue3.0">
-<meta property="og:url" content="http://example.com/2021/04/02/vue3-0/index.html">
+<meta property="og:title" content="vue3.0心得">
+<meta property="og:url" content="http://example.com/2021/04/08/vue3-0-1/index.html">
 <meta property="og:site_name" content="肥嘟嘟左卫门的博客">
-<meta property="og:description" content="前端技术分享">
+<meta property="og:description" content="1.vue3.0是如何变快的呢?(1) diff方法优化: vue2中的virDom是全量的对比，vue3新增了静态标记(patchFlag),在与上一次virDom进行对比的时候，只对比带有标记的节点，并且通过flag的信息得知当前节点对比的具体内容 (2) hoistStatic静态提升:vue2无论元素是否参与更新都会被重新创建。vue3对于不参与更新的元素，只会被创建一次，之后会在每次渲染">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-04-02T08:26:37.000Z">
-<meta property="article:modified_time" content="2021-04-02T08:26:37.243Z">
+<meta property="article:published_time" content="2021-04-08T07:40:57.000Z">
+<meta property="article:modified_time" content="2021-04-08T07:40:57.837Z">
 <meta property="article:author" content="肥嘟嘟左卫门">
 <meta name="twitter:card" content="summary">
   
@@ -154,27 +154,75 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-vue3-0" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-vue3-0-1" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      vue3.0
+      vue3.0心得
     </h1>
   
 
         
-        <a href="/2021/04/02/vue3-0/" class="archive-article-date">
-  	<time datetime="2021-04-02T08:26:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-02</time>
+        <a href="/2021/04/08/vue3-0-1/" class="archive-article-date">
+  	<time datetime="2021-04-08T07:40:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h4 id="1-vue3-0是如何变快的呢"><a href="#1-vue3-0是如何变快的呢" class="headerlink" title="1.vue3.0是如何变快的呢?"></a>1.vue3.0是如何变快的呢?</h4><pre><code>(1) diff方法优化: vue2中的virDom是全量的对比，vue3新增了静态标记(patchFlag),在与上一次virDom进行对比的时候，只对比带有标记的节点，并且通过flag的信息得知当前节点对比的具体内容
+(2) hoistStatic静态提升:vue2无论元素是否参与更新都会被重新创建。vue3对于不参与更新的元素，只会被创建一次，之后会在每次渲染时被不停的复用
+(3) cacheHandlers事件监听缓存，在vue3diff算法中，只有静态标记的才会进行比较，才会跟踪（在同一个函数中没必要进行比较跟踪）
+</code></pre>
+<h4 id="2-setup注意点"><a href="#2-setup注意点" class="headerlink" title="2.setup注意点"></a>2.setup注意点</h4><pre><code>由于在执行setup函数的时候还没有执行created生命周期，所以在setup函数中是无法使用data,methods，this指向的是undefind.同时setup只能是同步的
+</code></pre>
+<h4 id="3-ref"><a href="#3-ref" class="headerlink" title="3.ref"></a>3.ref</h4><pre><code>ref的本质还是reactive,当我们给ref函数传递一个值之后，ref函数底层会自动将ref转换reactive    
+</code></pre>
+<h4 id="4-递归监听"><a href="#4-递归监听" class="headerlink" title="4.递归监听"></a>4.递归监听</h4><pre><code>默认情况下，无论是通过ref或者是reactive都是递归监听，每一次都有一个proxy包装
+</code></pre>
+<h4 id="5-非递归监听"><a href="#5-非递归监听" class="headerlink" title="5.非递归监听"></a>5.非递归监听</h4><pre><code>shallowReactive监听第一层数据的变化，只有第一层数据发生变化后面才会发生变化
+shallowRef  vue监听的是.value的变化(value本质上是第一层的数据的变化)
+triggerRef
+</code></pre>
+<h4 id="6-toRaw获取原始数据"><a href="#6-toRaw获取原始数据" class="headerlink" title="6.toRaw获取原始数据"></a>6.toRaw获取原始数据</h4><pre><code>var obj=&#123;name:&#39;张三&#39;&#125;
+var state=reactive(obj)
+var obj2=toRaw(state)  (如果是state的是ref获取的变量那么可以通过toRaw(state.value)来获取原始数据)
+state===&gt;obj(引用的关系)
+(1)改变obj中的name，state也会发生变化，但是页面不会发生更新
+(2)toRaw获取的是ref或者reactive的原始数据所以obj===obj2
+</code></pre>
+<h4 id="7-ref-reactive的特点"><a href="#7-ref-reactive的特点" class="headerlink" title="7.ref/reactive的特点"></a>7.ref/reactive的特点</h4><pre><code>每次修改都会被追踪，都会更新ui界面，但是这样其实是非常耗性能的，如果我们有一些操作不需要追踪，不需要更新ui界面，那么这个时候可以通过toRaw方法拿到它的原始数据，对原始数据进行修改不会更新ui界面
+</code></pre>
+<h4 id="8-markRaw"><a href="#8-markRaw" class="headerlink" title="8.markRaw"></a>8.markRaw</h4><pre><code>markRaw的数据永远都不会被跟踪 
+</code></pre>
+<h4 id="9-toRef"><a href="#9-toRef" class="headerlink" title="9.toRef"></a>9.toRef</h4><pre><code>var obj=&#123;name:&#39;张三&#39;&#125;
+var state=toRef(obj,&#39;name&#39;)  修改响应式数据会影响原始数据变化但不会响应式更新ui界面
+ref-&gt;相当于复制，修改数据不会影响以前的数据，且ui界面会更新
+toRef-&gt; 相当于引用，修改响应式数据会影响以前的数据，且ui界面不会更新
+</code></pre>
+<h4 id="10-toRefs"><a href="#10-toRefs" class="headerlink" title="10.toRefs"></a>10.toRefs</h4><pre><code>var obj=&#123;name:&#39;张三&#39;,age:16&#125;
+var state=toRefs(obj)       对于原始对象obj含有多个参数的时候
+console.log(state.name.value)
+</code></pre>
+<h4 id="11-customRef-自定义ref"><a href="#11-customRef-自定义ref" class="headerlink" title="11.customRef 自定义ref"></a>11.customRef 自定义ref</h4><pre><code>  function myRef(value)&#123;
+    return customRef((track,trigger)=&gt;&#123;
+       return &#123;
+          get()&#123;
+               track() 告知vue这个数据是需要追踪变化的
+               return value
+          &#125;,
+          set(newValue)&#123;
+              value=newValue
+              trigger()  告知vue触发ui界面更新
+          &#125;
+      &#125;
+  &#125;)
+</code></pre>
+
       
 
       
@@ -253,7 +301,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/04/02/vue3-0/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/04/08/vue3-0-1/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -265,16 +313,6 @@
 </article>
 
   
-<nav id="article-nav">
-  
-  
-    <a href="/2021/04/02/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">

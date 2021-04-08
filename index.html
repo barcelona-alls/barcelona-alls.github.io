@@ -154,101 +154,74 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-vue3-0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-vue3-0-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/02/vue3-0/">vue3.0</a>
+      <a class="article-title" href="/2021/04/08/vue3-0-1/">vue3.0心得</a>
     </h1>
   
 
         
-        <a href="/2021/04/02/vue3-0/" class="archive-article-date">
-  	<time datetime="2021-04-02T08:26:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-02</time>
+        <a href="/2021/04/08/vue3-0-1/" class="archive-article-date">
+  	<time datetime="2021-04-08T07:40:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/02/vue3-0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/02/hello-world/" class="archive-article-date">
-  	<time datetime="2021-04-02T07:20:35.611Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <h4 id="1-vue3-0是如何变快的呢"><a href="#1-vue3-0是如何变快的呢" class="headerlink" title="1.vue3.0是如何变快的呢?"></a>1.vue3.0是如何变快的呢?</h4><pre><code>(1) diff方法优化: vue2中的virDom是全量的对比，vue3新增了静态标记(patchFlag),在与上一次virDom进行对比的时候，只对比带有标记的节点，并且通过flag的信息得知当前节点对比的具体内容
+(2) hoistStatic静态提升:vue2无论元素是否参与更新都会被重新创建。vue3对于不参与更新的元素，只会被创建一次，之后会在每次渲染时被不停的复用
+(3) cacheHandlers事件监听缓存，在vue3diff算法中，只有静态标记的才会进行比较，才会跟踪（在同一个函数中没必要进行比较跟踪）
+</code></pre>
+<h4 id="2-setup注意点"><a href="#2-setup注意点" class="headerlink" title="2.setup注意点"></a>2.setup注意点</h4><pre><code>由于在执行setup函数的时候还没有执行created生命周期，所以在setup函数中是无法使用data,methods，this指向的是undefind.同时setup只能是同步的
+</code></pre>
+<h4 id="3-ref"><a href="#3-ref" class="headerlink" title="3.ref"></a>3.ref</h4><pre><code>ref的本质还是reactive,当我们给ref函数传递一个值之后，ref函数底层会自动将ref转换reactive    
+</code></pre>
+<h4 id="4-递归监听"><a href="#4-递归监听" class="headerlink" title="4.递归监听"></a>4.递归监听</h4><pre><code>默认情况下，无论是通过ref或者是reactive都是递归监听，每一次都有一个proxy包装
+</code></pre>
+<h4 id="5-非递归监听"><a href="#5-非递归监听" class="headerlink" title="5.非递归监听"></a>5.非递归监听</h4><pre><code>shallowReactive监听第一层数据的变化，只有第一层数据发生变化后面才会发生变化
+shallowRef  vue监听的是.value的变化(value本质上是第一层的数据的变化)
+triggerRef
+</code></pre>
+<h4 id="6-toRaw获取原始数据"><a href="#6-toRaw获取原始数据" class="headerlink" title="6.toRaw获取原始数据"></a>6.toRaw获取原始数据</h4><pre><code>var obj=&#123;name:&#39;张三&#39;&#125;
+var state=reactive(obj)
+var obj2=toRaw(state)  (如果是state的是ref获取的变量那么可以通过toRaw(state.value)来获取原始数据)
+state===&gt;obj(引用的关系)
+(1)改变obj中的name，state也会发生变化，但是页面不会发生更新
+(2)toRaw获取的是ref或者reactive的原始数据所以obj===obj2
+</code></pre>
+<h4 id="7-ref-reactive的特点"><a href="#7-ref-reactive的特点" class="headerlink" title="7.ref/reactive的特点"></a>7.ref/reactive的特点</h4><pre><code>每次修改都会被追踪，都会更新ui界面，但是这样其实是非常耗性能的，如果我们有一些操作不需要追踪，不需要更新ui界面，那么这个时候可以通过toRaw方法拿到它的原始数据，对原始数据进行修改不会更新ui界面
+</code></pre>
+<h4 id="8-markRaw"><a href="#8-markRaw" class="headerlink" title="8.markRaw"></a>8.markRaw</h4><pre><code>markRaw的数据永远都不会被跟踪 
+</code></pre>
+<h4 id="9-toRef"><a href="#9-toRef" class="headerlink" title="9.toRef"></a>9.toRef</h4><pre><code>var obj=&#123;name:&#39;张三&#39;&#125;
+var state=toRef(obj,&#39;name&#39;)  修改响应式数据会影响原始数据变化但不会响应式更新ui界面
+ref-&gt;相当于复制，修改数据不会影响以前的数据，且ui界面会更新
+toRef-&gt; 相当于引用，修改响应式数据会影响以前的数据，且ui界面不会更新
+</code></pre>
+<h4 id="10-toRefs"><a href="#10-toRefs" class="headerlink" title="10.toRefs"></a>10.toRefs</h4><pre><code>var obj=&#123;name:&#39;张三&#39;,age:16&#125;
+var state=toRefs(obj)       对于原始对象obj含有多个参数的时候
+console.log(state.name.value)
+</code></pre>
+<h4 id="11-customRef-自定义ref"><a href="#11-customRef-自定义ref" class="headerlink" title="11.customRef 自定义ref"></a>11.customRef 自定义ref</h4><pre><code>  function myRef(value)&#123;
+    return customRef((track,trigger)=&gt;&#123;
+       return &#123;
+          get()&#123;
+               track() 告知vue这个数据是需要追踪变化的
+               return value
+          &#125;,
+          set(newValue)&#123;
+              value=newValue
+              trigger()  告知vue触发ui界面更新
+          &#125;
+      &#125;
+  &#125;)
+</code></pre>
 
       
 
@@ -261,7 +234,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/02/hello-world/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/04/08/vue3-0-1/">展开全文 >></a>
         </p>
       
 
